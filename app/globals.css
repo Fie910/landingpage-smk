@@ -1,0 +1,33 @@
+/* //smk-khawahabmuhsin/app/globals.css */
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Palet Warna Sekolah */
+  --color-navy-deep: #0B2A4A;
+  --color-navy-mid: #1E4E8C;
+  --color-gold: #C9A227;
+  --color-bg-tulang: #F8F7F4;
+  --color-text-charcoal: #1F2937;
+
+  /* Font */
+  --font-sans: var(--font-plus-jakarta);
+  --font-serif: var(--font-playfair);
+}
+
+body {
+  background-color: var(--color-bg-tulang);
+  color: var(--color-text-charcoal);
+}
+
+/* Mengatur warna teks artikel secara global */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--color-navy-deep);
+}
+
+.prose a {
+  color: var(--color-gold);
+}
