@@ -42,10 +42,10 @@ export default function Hero({ data }: { data: any }) {
                         style={{ animation: 'soft-pulse 4s ease-in-out 1s infinite' }}
                     >
                         {/* Permainan Warna: Efek Pendaran Cahaya di dalam Kaca */}
-                        <span className="absolute inset-0 bg-gradient-to-r from-gold/20 via-transparent to-blue-500/20 opacity-50"></span>
+                        <span className="absolute inset-0 bg-linear-to-r from-gold/20 via-transparent to-blue-500/20 opacity-50"></span>
 
                         {/* Teks Gradasi Emas ke Putih */}
-                        <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-gray-100 via-gold to-gray-100 drop-shadow-sm">
+                        <span className="relative z-10 bg-clip-text text-transparent bg-linear-to-r from-gray-100 via-gold to-gray-100 drop-shadow-sm">
                             {data?.heroSubtitle || "Sekolah berbasis Boarding School di Kabupaten Tasikmalaya yang memadukan pendidikan vokasi, adab, dan kemandirian."}
                         </span>
                     </p>
