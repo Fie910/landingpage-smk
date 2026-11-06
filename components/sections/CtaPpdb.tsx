@@ -1,10 +1,23 @@
 //components\sections\CtaPpdb.tsx
 import Link from "next/link"
+import { urlForImage } from "@/sanity/lib/image"
 
-export default function CtaPpdb({ linkPPDB }: { linkPPDB?: string }) {
+export default function CtaPpdb({ linkPPDB, bgClass, texture, opacity }: { linkPPDB?: string, bgClass?: string, texture?: any, opacity?: number }) {
+    const bg = bgClass || "bg-navy-mid";
+
     return (
-        <section className="py-24 bg-navy-mid relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <section className={`py-24 relative overflow-hidden ${bg}`}>
+            {texture?.image && (
+                <div
+                    className="absolute inset-0 pointer-events-none z-0 mix-blend-overlay"
+                    style={{
+                        backgroundImage: `url(${urlForImage(texture.image).url()})`,
+                        backgroundSize: 'cover',
+                        opacity: (opacity || 30) / 100
+                    }}
+                />
+            )}
+
             <div className="container relative z-10 mx-auto px-4 text-center">
                 <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
                     Bergabunglah Bersama Kami

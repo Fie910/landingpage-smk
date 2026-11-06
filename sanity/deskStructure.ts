@@ -20,6 +20,13 @@ export const structure: StructureResolver = (S) =>
         .id('aboutPage')
         .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
 
+      S.documentTypeListItem('texture').title('🖼️ Gudang Tekstur'),
+
+      S.listItem()
+        .title('🎨 Pengaturan Tampilan')
+        .id('themeSettings')
+        .child(S.document().schemaType('themeSettings').documentId('themeSettings')),
+
       S.divider(),
 
       S.documentTypeListItem('program').title('🎓 Program Keahlian'),

@@ -11,6 +11,8 @@ import testimonial from './testimonial'
 import news from './news'
 import achievement from './achievement'
 import event from './event'
+import themeSettings from './themeSettings'
+import texture from './texture'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -26,6 +28,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     testimonial,
     news,
     event,
+    themeSettings,
+    texture,
 
     // Disiapkan (Belum tampil di UI)
     achievement,

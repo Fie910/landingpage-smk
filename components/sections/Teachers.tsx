@@ -2,12 +2,25 @@
 import Image from "next/image"
 import { urlForImage } from "@/sanity/lib/image"
 
-export default function Teachers({ data }: { data: any[] }) {
+export default function Teachers({ data, bgClass, texture, opacity }: { data: any[], bgClass?: string, texture?: any, opacity?: number }) {
     if (!data || data.length === 0) return null;
+    const bg = bgClass || "bg-transparent";
 
     return (
-        <section className="py-20 bg-bg-tulang">
-            <div className="container mx-auto px-4 md:px-8">
+        <section className={`py-20 relative overflow-hidden ${bg}`}>
+            {/* LAPISAN TEKSTUR */}
+            {texture?.image && (
+                <div
+                    className="absolute inset-0 pointer-events-none z-0"
+                    style={{
+                        backgroundImage: `url(${urlForImage(texture.image).url()})`,
+                        backgroundSize: 'cover',
+                        opacity: (opacity || 10) / 100
+                    }}
+                />
+            )}
+
+            <div className="container relative z-10 mx-auto px-4 md:px-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {data.map((teacher) => (
                         <div key={teacher._id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group">
