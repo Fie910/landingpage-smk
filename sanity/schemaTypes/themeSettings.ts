@@ -45,6 +45,10 @@ export default defineType({
         defineField({ name: 'agendaTexture', title: 'Tekstur: Agenda', type: 'reference', to: [{ type: 'texture' }] }),
         defineField({ name: 'agendaOpacity', title: 'Intensitas Tekstur Agenda (%)', type: 'number', options: { layout: 'slider' } as any, initialValue: 10 }),
 
+        defineField({ name: 'faqBg', title: 'Warna: FAQ', type: 'string', options: { list: colorOptions }, initialValue: 'bg-white text-gray-800' }),
+        defineField({ name: 'faqTexture', title: 'Tekstur: FAQ', type: 'reference', to: [{ type: 'texture' }] }),
+        defineField({ name: 'faqOpacity', title: 'Intensitas Tekstur FAQ (%)', type: 'number', options: { layout: 'slider' } as any, initialValue: 10 }),
+
         defineField({ name: 'newsBg', title: 'Warna: Berita Terbaru', type: 'string', options: { list: colorOptions }, initialValue: 'bg-bg-tulang text-gray-800' }),
         defineField({ name: 'newsTexture', title: 'Tekstur: Berita Terbaru', type: 'reference', to: [{ type: 'texture' }] }),
         defineField({ name: 'newsOpacity', title: 'Intensitas Tekstur Berita (%)', type: 'number', options: { layout: 'slider' } as any, initialValue: 10 }),

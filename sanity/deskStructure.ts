@@ -36,6 +36,8 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('news').title('📰 Berita'),
       S.documentTypeListItem('event').title('📅 Agenda & Kalender'),
       S.documentTypeListItem('gallery').title('🖼️ Galeri Kegiatan'),
+      S.documentTypeListItem('faq').title('❓ Pertanyaan Umum (FAQ)'),
+      S.documentTypeListItem('lead').title('📥 Minat Pendaftar (Lead)'),
 
       S.divider(),
 

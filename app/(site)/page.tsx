@@ -1,6 +1,10 @@
 //smk-khawahabmuhsin/app/(site)/page.tsx
 import { client } from "@/sanity/lib/client"
-import { homepageQuery, programsQuery, facilitiesQuery, testimonialsQuery, siteSettingsQuery, latestNewsQuery, eventsQuery, themeSettingsQuery } from "@/lib/queries"
+import {
+  homepageQuery, programsQuery, facilitiesQuery,
+  testimonialsQuery, siteSettingsQuery, latestNewsQuery,
+  eventsQuery, themeSettingsQuery, faqsQuery
+} from "@/lib/queries"
 import Hero from "@/components/sections/Hero"
 import QuickLinks from "@/components/sections/QuickLinks"
 import Welcome from "@/components/sections/Welcome"
@@ -11,21 +15,26 @@ import LatestNews from "@/components/sections/LatestNews"
 import Agenda from "@/components/sections/Agenda"
 import Testimonials from "@/components/sections/Testimonials"
 import ScrollReveal from "@/components/site/ScrollReveal";
+import Faq from "@/components/sections/Faq"
+import LeadForm from "@/components/sections/LeadForm"
 //import CtaPpdb from "@/components/sections/CtaPpdb"
 
 export const revalidate = 60
 
 export default async function Home() {
-  const [homeData, programsData, facilitiesData, testimonialsData, siteSettings, latestNewsData, eventsData, themeData] = await Promise.all([
-    client.fetch(homepageQuery).catch(() => null),
-    client.fetch(programsQuery).catch(() => []),
-    client.fetch(facilitiesQuery).catch(() => []),
-    client.fetch(testimonialsQuery).catch(() => []),
-    client.fetch(siteSettingsQuery).catch(() => null),
-    client.fetch(latestNewsQuery).catch(() => []),
-    client.fetch(eventsQuery).catch(() => []),
-    client.fetch(themeSettingsQuery).catch(() => null)
-  ])
+  const [homeData, programsData, facilitiesData,
+    testimonialsData, siteSettings, latestNewsData,
+    eventsData, themeData, faqData] = await Promise.all([
+      client.fetch(homepageQuery).catch(() => null),
+      client.fetch(programsQuery).catch(() => []),
+      client.fetch(facilitiesQuery).catch(() => []),
+      client.fetch(testimonialsQuery).catch(() => []),
+      client.fetch(siteSettingsQuery).catch(() => null),
+      client.fetch(latestNewsQuery).catch(() => []),
+      client.fetch(eventsQuery).catch(() => []),
+      client.fetch(themeSettingsQuery).catch(() => null),
+      client.fetch(faqsQuery).catch(() => [])
+    ])
 
   return (
     <>
@@ -54,11 +63,23 @@ export default async function Home() {
       </ScrollReveal>
 
       <ScrollReveal>
+        <Faq data={faqData} bgClass={themeData?.faqBg} texture={themeData?.faqTexture} opacity={themeData?.faqOpacity} />
+      </ScrollReveal>
+
+      <ScrollReveal>
         <LatestNews data={latestNewsData} bgClass={themeData?.newsBg} texture={themeData?.newsTexture} opacity={themeData?.newsOpacity} />
       </ScrollReveal>
 
       <ScrollReveal>
         <Testimonials data={testimonialsData} bgClass={themeData?.testimonialBg} texture={themeData?.testimonialTexture} opacity={themeData?.testimonialOpacity} />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <LeadForm
+          bgClass="bg-navy-deep"
+          texture={themeData?.ctaTexture}
+          opacity={themeData?.ctaOpacity}
+        />
       </ScrollReveal>
 
       {/*<ScrollReveal>*/}

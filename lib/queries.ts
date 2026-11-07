@@ -22,6 +22,7 @@ export const themeSettingsQuery = groq`
     programBg, programTexture->{ image }, programOpacity,
     facilitiesBg, facilitiesTexture->{ image }, facilitiesOpacity,
     agendaBg, agendaTexture->{ image }, agendaOpacity,
+    faqBg, faqTexture->{ image }, faqOpacity,
     newsBg, newsTexture->{ image }, newsOpacity,
     testimonialBg, testimonialTexture->{ image }, testimonialOpacity,
     ctaBg, ctaTexture->{ image }, ctaOpacity,
@@ -52,5 +53,13 @@ export const singleGalleryQuery = groq`
     title,
     date,
     images
+  }
+`
+
+export const faqsQuery = groq`
+  *[_type == "faq"] | order(order asc) {
+    _id,
+    question,
+    answer
   }
 `
