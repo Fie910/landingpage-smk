@@ -1,8 +1,8 @@
 //smk-khawahabmuhsin/app/layout.tsx
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
+import { GoogleAnalytics } from '@next/third-parties/google'; // <-- 1. Tambahkan ini
 import "./globals.css";
-
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -45,6 +45,7 @@ export default function RootLayout({
       <body className={`${plusJakarta.variable} ${playfair.variable} font-sans antialiased`}>
         {children}
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
     </html>
   );
 }
