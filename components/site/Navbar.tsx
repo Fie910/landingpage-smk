@@ -17,6 +17,7 @@ export default function Navbar({ data }: { data?: any }) {
         { name: "Fasilitas", href: "/fasilitas" },
         { name: "Guru", href: "/guru" },
         { name: "Berita & Kegiatan", href: "/berita" },
+        { name: "Galeri", href: "/galeri" },
         { name: "Kontak", href: "/kontak" },
     ];
 

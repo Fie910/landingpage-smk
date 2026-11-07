@@ -35,3 +35,22 @@ export const themeSettingsQuery = groq`
     kontakBg, kontakTexture->{ image }, kontakOpacity
   }
 `
+
+export const allGalleriesQuery = groq`
+  *[_type == "gallery"] | order(date desc) {
+    _id,
+    title,
+    slug,
+    date,
+    "imageCount": count(images),
+    "coverImage": images[0]
+  }
+`
+
+export const singleGalleryQuery = groq`
+  *[_type == "gallery" && slug.current == $slug][0] {
+    title,
+    date,
+    images
+  }
+`

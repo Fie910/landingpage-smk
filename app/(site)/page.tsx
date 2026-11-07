@@ -10,6 +10,7 @@ import Facilities from "@/components/sections/Facilities"
 import LatestNews from "@/components/sections/LatestNews"
 import Agenda from "@/components/sections/Agenda"
 import Testimonials from "@/components/sections/Testimonials"
+import ScrollReveal from "@/components/site/ScrollReveal";
 //import CtaPpdb from "@/components/sections/CtaPpdb"
 
 export const revalidate = 60
@@ -31,17 +32,39 @@ export default async function Home() {
       <Hero data={homeData} />
       <QuickLinks linkPPDB={siteSettings?.linkPPDB} linkPegawai={siteSettings?.linkPortalPegawai} />
 
-      <Welcome data={homeData} bgClass={themeData?.welcomeBg} texture={themeData?.welcomeTexture} opacity={themeData?.welcomeOpacity} />
-      <VisionMission data={homeData} bgClass={themeData?.visionBg} texture={themeData?.visionTexture} opacity={themeData?.visionOpacity} />
+      {/* Bungkus setiap section dengan ScrollReveal */}
+      <ScrollReveal>
+        <Welcome data={homeData} bgClass={themeData?.welcomeBg} texture={themeData?.welcomeTexture} opacity={themeData?.welcomeOpacity} />
+      </ScrollReveal>
 
-      <Programs data={programsData} bgClass={themeData?.programBg} texture={themeData?.programTexture} opacity={themeData?.programOpacity} />
-      <Facilities data={facilitiesData} bgClass={themeData?.facilitiesBg} texture={themeData?.facilitiesTexture} opacity={themeData?.facilitiesOpacity} />
+      <ScrollReveal>
+        <VisionMission data={homeData} bgClass={themeData?.visionBg} texture={themeData?.visionTexture} opacity={themeData?.visionOpacity} />
+      </ScrollReveal>
 
-      <Agenda data={eventsData} bgClass={themeData?.agendaBg} texture={themeData?.agendaTexture} opacity={themeData?.agendaOpacity} />
-      <LatestNews data={latestNewsData} bgClass={themeData?.newsBg} texture={themeData?.newsTexture} opacity={themeData?.newsOpacity} />
+      <ScrollReveal>
+        <Programs data={programsData} bgClass={themeData?.programBg} texture={themeData?.programTexture} opacity={themeData?.programOpacity} />
+      </ScrollReveal>
 
-      <Testimonials data={testimonialsData} bgClass={themeData?.testimonialBg} texture={themeData?.testimonialTexture} opacity={themeData?.testimonialOpacity} />
+      <ScrollReveal>
+        <Facilities data={facilitiesData} bgClass={themeData?.facilitiesBg} texture={themeData?.facilitiesTexture} opacity={themeData?.facilitiesOpacity} />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Agenda data={eventsData} bgClass={themeData?.agendaBg} texture={themeData?.agendaTexture} opacity={themeData?.agendaOpacity} />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <LatestNews data={latestNewsData} bgClass={themeData?.newsBg} texture={themeData?.newsTexture} opacity={themeData?.newsOpacity} />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Testimonials data={testimonialsData} bgClass={themeData?.testimonialBg} texture={themeData?.testimonialTexture} opacity={themeData?.testimonialOpacity} />
+      </ScrollReveal>
+
+      {/*<ScrollReveal>*/}
       {/*<CtaPpdb linkPPDB={siteSettings?.linkPPDB} bgClass={themeData?.ctaBg} texture={themeData?.ctaTexture} opacity={themeData?.ctaOpacity} /> */}
+      {/*</ScrollReveal>*/}
+
     </>
   )
 }

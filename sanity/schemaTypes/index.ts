@@ -13,6 +13,7 @@ import achievement from './achievement'
 import event from './event'
 import themeSettings from './themeSettings'
 import texture from './texture'
+import gallery from './gallery'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -30,6 +31,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     event,
     themeSettings,
     texture,
+    gallery,
 
     // Disiapkan (Belum tampil di UI)
     achievement,
