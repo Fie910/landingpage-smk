@@ -1,5 +1,5 @@
 // app/(site)/galeri/[slug]/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { singleGalleryQuery, themeSettingsQuery } from "@/lib/queries"
 import { notFound } from "next/navigation"
 import Link from "next/link"
@@ -8,7 +8,7 @@ import Lightbox from "@/components/site/Lightbox"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
-    const gallery = await client.fetch(singleGalleryQuery, { slug: resolvedParams.slug })
+    const { data: gallery } = (await sanityFetch({ query: singleGalleryQuery, params: { slug: resolvedParams.slug } })) as { data: any }
     if (!gallery) return { title: 'Galeri Tidak Ditemukan' }
     return { title: `${gallery.title} | Galeri SMK KH. A. Wahab Muhsin` }
 }
@@ -17,10 +17,10 @@ export const revalidate = 60
 
 export default async function DetailGaleri({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
-    const [gallery, themeData] = await Promise.all([
-        client.fetch(singleGalleryQuery, { slug: resolvedParams.slug }),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: gallery }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: singleGalleryQuery, params: { slug: resolvedParams.slug } }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
 
     if (!gallery) notFound()
     const bg = themeData?.beritaBg || "bg-bg-tulang text-gray-800"

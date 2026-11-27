@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
-import { urlForImage } from "@/sanity/lib/image";
+import PageBackground from "@/components/site/PageBackground";
 
 export default function Faq({ data, bgClass, texture, opacity }: { data: any[], bgClass?: string, texture?: any, opacity?: number }) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -18,17 +18,7 @@ export default function Faq({ data, bgClass, texture, opacity }: { data: any[], 
 
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
-            {/* Tekstur Latar (jika ada) */}
-            {texture?.image && (
-                <div
-                    className="absolute inset-0 pointer-events-none z-0"
-                    style={{
-                        backgroundImage: `url(${urlForImage(texture.image).url()})`,
-                        backgroundSize: 'cover',
-                        opacity: (opacity || 10) / 100
-                    }}
-                />
-            )}
+            <PageBackground texture={texture} opacity={opacity} />
 
             <div className="container relative z-10 mx-auto px-4 md:px-8 max-w-3xl">
                 <div className="text-center mb-12">

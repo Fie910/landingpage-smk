@@ -8,7 +8,7 @@ export default function PageBackground({ texture, opacity }: { texture?: any, op
         <div
             className="absolute inset-0 pointer-events-none z-0"
             style={{
-                backgroundImage: `url(${urlForImage(texture.image).url()})`,
+                backgroundImage: `url(${urlForImage(texture.image).width(1400).quality(70).url()})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 opacity: (opacity || 10) / 100

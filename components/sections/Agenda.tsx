@@ -1,6 +1,6 @@
 // components/sections/Agenda.tsx
 import { Calendar, MapPin } from "lucide-react"
-import { urlForImage } from "@/sanity/lib/image"
+import PageBackground from "@/components/site/PageBackground"
 
 export default function Agenda({ data, bgClass, texture, opacity }: { data: any[], bgClass?: string, texture?: any, opacity?: number }) {
     if (!data || data.length === 0) return null;
@@ -8,9 +8,7 @@ export default function Agenda({ data, bgClass, texture, opacity }: { data: any[
 
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
-            {texture?.image && (
-                <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: `url(${urlForImage(texture.image).url()})`, backgroundSize: 'cover', opacity: (opacity || 10) / 100 }} />
-            )}
+            <PageBackground texture={texture} opacity={opacity} />
             <div className="container relative z-10 mx-auto px-4 md:px-8 max-w-4xl">
                 <div className="text-center mb-12">
                     <h2 className="font-serif text-3xl font-bold text-navy-deep mb-4">Agenda Mendatang</h2>

@@ -23,6 +23,7 @@ export default defineType({
     type: 'document',
     fields: [
         defineField({ name: 'globalBgColor', title: 'Warna Latar Dasar Website (Jika Transparan)', type: 'string', options: { list: colorOptions }, initialValue: 'bg-bg-tulang text-gray-800' }),
+        defineField({ name: 'globalBgImage', title: 'Gambar Latar Dasar Website (Opsional)', type: 'image', options: { hotspot: true } }),
 
         // --- SECTION BERANDA ---
         defineField({ name: 'welcomeBg', title: 'Warna: Sambutan', type: 'string', options: { list: colorOptions }, initialValue: 'bg-white text-gray-800' }),
@@ -52,6 +53,10 @@ export default defineType({
         defineField({ name: 'newsBg', title: 'Warna: Berita Terbaru', type: 'string', options: { list: colorOptions }, initialValue: 'bg-bg-tulang text-gray-800' }),
         defineField({ name: 'newsTexture', title: 'Tekstur: Berita Terbaru', type: 'reference', to: [{ type: 'texture' }] }),
         defineField({ name: 'newsOpacity', title: 'Intensitas Tekstur Berita (%)', type: 'number', options: { layout: 'slider' } as any, initialValue: 10 }),
+
+        defineField({ name: 'instagramBg', title: 'Warna: Sorotan Instagram', type: 'string', options: { list: colorOptions }, initialValue: 'bg-white text-gray-800' }),
+        defineField({ name: 'instagramTexture', title: 'Tekstur: Sorotan Instagram', type: 'reference', to: [{ type: 'texture' }] }),
+        defineField({ name: 'instagramOpacity', title: 'Intensitas Tekstur Instagram (%)', type: 'number', options: { layout: 'slider' } as any, initialValue: 10 }),
 
         defineField({ name: 'testimonialBg', title: 'Warna: Testimoni', type: 'string', options: { list: colorOptions }, initialValue: 'bg-white text-gray-800' }),
         defineField({ name: 'testimonialTexture', title: 'Tekstur: Testimoni', type: 'reference', to: [{ type: 'texture' }] }),

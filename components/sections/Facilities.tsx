@@ -1,6 +1,7 @@
 // components/sections/Facilities.tsx
 import Image from "next/image"
 import { urlForImage } from "@/sanity/lib/image"
+import PageBackground from "@/components/site/PageBackground"
 
 export default function Facilities({ data, bgClass, texture, opacity }: { data: any[], bgClass?: string, texture?: any, opacity?: number }) {
     if (!data || data.length === 0) return null;
@@ -8,16 +9,7 @@ export default function Facilities({ data, bgClass, texture, opacity }: { data: 
 
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
-            {texture?.image && (
-                <div
-                    className="absolute inset-0 pointer-events-none z-0"
-                    style={{
-                        backgroundImage: `url(${urlForImage(texture.image).url()})`,
-                        backgroundSize: 'cover',
-                        opacity: (opacity || 20) / 100
-                    }}
-                />
-            )}
+            <PageBackground texture={texture} opacity={opacity} />
 
             <div className="container relative z-10 mx-auto px-4 md:px-8">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -32,7 +24,13 @@ export default function Facilities({ data, bgClass, texture, opacity }: { data: 
                     {data.map((facility, index) => (
                         <div key={facility._id} className={`relative rounded-xl overflow-hidden group h-64 ${index === 0 ? 'col-span-2 row-span-2 h-full min-h-100' : ''}`}>
                             {facility.image ? (
-                                <Image src={urlForImage(facility.image).url()} alt={facility.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                                <Image
+                                    src={urlForImage(facility.image).width(index === 0 ? 1000 : 600).quality(80).url()}
+                                    alt={facility.name}
+                                    fill
+                                    sizes={index === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
                             ) : (
                                 <div className="w-full h-full bg-navy-mid flex items-center justify-center text-sm text-gray-400">Foto Belum Ada</div>
                             )}

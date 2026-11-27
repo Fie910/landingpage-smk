@@ -1,5 +1,5 @@
 // app/(site)/program/[slug]/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { singleProgramQuery, themeSettingsQuery } from "@/lib/queries"
 import { urlForImage } from "@/sanity/lib/image"
 import { getYouTubeEmbedUrl } from "@/lib/youtube"
@@ -11,19 +11,34 @@ import PageBackground from "@/components/site/PageBackground"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
-    const program = await client.fetch(singleProgramQuery, { slug: resolvedParams.slug })
+    const { data: program } = (await sanityFetch({ query: singleProgramQuery, params: { slug: resolvedParams.slug } })) as { data: any }
     if (!program) return { title: 'Program Tidak Ditemukan' }
-    return { title: `${program.name} | SMK KH. A. Wahab Muhsin` }
+
+    const title = `${program.name} | SMK KH. A. Wahab Muhsin`
+    const description = program.description || `Informasi program keahlian ${program.name} di SMK KH. A. Wahab Muhsin.`
+    const ogImage = program.image
+        ? urlForImage(program.image).width(1200).height(630).url()
+        : undefined
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630 }] } : {}),
+        },
+    }
 }
 
 export const revalidate = 60
 
 export default async function DetailProgram({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
-    const [program, themeData] = await Promise.all([
-        client.fetch(singleProgramQuery, { slug: resolvedParams.slug }),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: program }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: singleProgramQuery, params: { slug: resolvedParams.slug } }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
     if (!program) notFound()
     const embedUrl = getYouTubeEmbedUrl(program.videoUrl)
     const bg = themeData?.programSlugBg || "bg-bg-tulang text-gray-800";
@@ -43,7 +58,7 @@ export default async function DetailProgram({ params }: { params: Promise<{ slug
                     <div className="bg-white/95 backdrop-blur-sm p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100">
                         {program.image && (
                             <div className="relative h-75 md:h-100 w-full rounded-2xl overflow-hidden mb-10">
-                                <Image src={urlForImage(program.image).url()} alt={program.name} fill className="object-cover" />
+                                <Image src={urlForImage(program.image).width(1200).quality(85).url()} alt={program.name} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover" />
                             </div>
                         )}
                         <div className="prose prose-lg md:prose-xl max-w-none prose-headings:font-serif prose-img:rounded-xl">

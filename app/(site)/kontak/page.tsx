@@ -1,5 +1,5 @@
 // app/(site)/kontak/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { siteSettingsQuery, themeSettingsQuery } from "@/lib/queries"
 import { MapPin, Phone, Mail, MessageCircle } from "lucide-react"
 import PageBackground from "@/components/site/PageBackground"
@@ -8,10 +8,10 @@ export const metadata = { title: "Kontak | SMK KH. A. Wahab Muhsin" }
 export const revalidate = 60
 
 export default async function KontakPage() {
-    const [data, themeData] = await Promise.all([
-        client.fetch(siteSettingsQuery),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: siteSettingsQuery }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
     // PERBAIKAN: kontakBg
     const bg = themeData?.kontakBg || "bg-bg-tulang text-gray-800"
 

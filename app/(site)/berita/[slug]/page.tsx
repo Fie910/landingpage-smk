@@ -1,5 +1,5 @@
 // app/(site)/berita/[slug]/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { singleNewsQuery, themeSettingsQuery } from "@/lib/queries"
 import { urlForImage } from "@/sanity/lib/image"
 import { getYouTubeEmbedUrl } from "@/lib/youtube"
@@ -8,22 +8,38 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import PageBackground from "@/components/site/PageBackground"
+import InstagramEmbedCard from "@/components/site/InstagramEmbedCard"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
-    const news = await client.fetch(singleNewsQuery, { slug: resolvedParams.slug })
+    const { data: news } = (await sanityFetch({ query: singleNewsQuery, params: { slug: resolvedParams.slug } })) as { data: any }
     if (!news) return { title: 'Berita Tidak Ditemukan' }
-    return { title: `${news.title} | SMK KH. A. Wahab Muhsin` }
+
+    const title = `${news.title} | SMK KH. A. Wahab Muhsin`
+    const description = `Baca berita terbaru: ${news.title} di SMK KH. A. Wahab Muhsin.`
+    const ogImage = news.coverImage
+        ? urlForImage(news.coverImage).width(1200).height(630).url()
+        : undefined
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630 }] } : {}),
+        },
+    }
 }
 
 export const revalidate = 60
 
 export default async function DetailBerita({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
-    const [news, themeData] = await Promise.all([
-        client.fetch(singleNewsQuery, { slug: resolvedParams.slug }),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: news }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: singleNewsQuery, params: { slug: resolvedParams.slug } }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
     if (!news) notFound()
     const embedUrl = getYouTubeEmbedUrl(news.videoUrl)
 
@@ -39,11 +55,26 @@ export default async function DetailBerita({ params }: { params: Promise<{ slug:
                 <p className="text-gray-500 mb-8 border-b pb-4">Diterbitkan pada {new Date(news.publishedAt).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 {news.coverImage && (
                     <div className="relative h-75 md:h-100 w-full rounded-2xl overflow-hidden mb-10 bg-gray-100">
-                        <Image src={urlForImage(news.coverImage).url()} alt={news.title} fill className="object-cover" />
+                        <Image src={urlForImage(news.coverImage).width(1200).quality(85).url()} alt={news.title} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover" />
                     </div>
                 )}
                 <div className="prose prose-lg md:prose-xl max-w-none prose-headings:font-serif prose-img:rounded-xl">
-                    {news.body ? <PortableText value={news.body} /> : <p>Isi berita kosong.</p>}
+                    {news.body ? (
+                        <PortableText
+                            value={news.body}
+                            components={{
+                                types: {
+                                    instagramEmbed: ({ value }: { value: { url: string; caption?: string } }) => (
+                                        <div className="my-8 not-prose max-w-md mx-auto">
+                                            <InstagramEmbedCard url={value.url} title={value.caption} />
+                                        </div>
+                                    ),
+                                },
+                            }}
+                        />
+                    ) : (
+                        <p>Isi berita kosong.</p>
+                    )}
                 </div>
                 {embedUrl && (
                     <div className="mt-12">

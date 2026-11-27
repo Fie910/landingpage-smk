@@ -16,5 +16,8 @@ export default defineType({
         defineField({ name: 'mapsUrl', title: 'Link Embed Google Maps (src iframe)', type: 'url' }),
         defineField({ name: 'linkPortalPegawai', title: 'URL Portal Pegawai', type: 'url' }),
         defineField({ name: 'linkPPDB', title: 'URL PPDB Online', type: 'url' }),
+        defineField({ name: 'instagram', title: 'URL Instagram (Opsional)', type: 'url' }),
+        defineField({ name: 'youtube', title: 'URL YouTube (Opsional)', type: 'url' }),
+        defineField({ name: 'facebook', title: 'URL Facebook (Opsional)', type: 'url' }),
     ],
 })

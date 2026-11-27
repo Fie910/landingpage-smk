@@ -1,13 +1,13 @@
 // lib/queries.ts
 import { groq } from 'next-sanity'
 
-export const homepageQuery = groq`*[_type == "homepage"][0] { heroTitle, heroSubtitle, heroImage, welcomeTitle, welcomeText, headmasterName, headmasterPhoto, vision, missions }`
+export const homepageQuery = groq`*[_type == "homepage"][0] { heroTitle, heroSubtitle, heroImage, welcomeTitle, welcomeText, headmasterName, headmasterPhoto, headmasterPhotoSize, headmasterPhotoPosition, headmasterPhotoAlign, vision, missions }`
 export const aboutPageQuery = groq`*[_type == "aboutPage"][0] { history, coreValues, image, videoUrl }`
 export const programsQuery = groq`*[_type == "program"] | order(order asc) { _id, name, slug, description, image }`
 export const singleProgramQuery = groq`*[_type == "program" && slug.current == $slug][0] { name, description, longDescription, image, videoUrl }`
 export const facilitiesQuery = groq`*[_type == "facility"] | order(order asc) { _id, name, description, image }`
 export const testimonialsQuery = groq`*[_type == "testimonial"] { _id, name, role, quote, image }`
-export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] { title, tagline, logo, address, phone, whatsapp, email, mapsUrl, linkPortalPegawai, linkPPDB }`
+export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] { title, tagline, logo, address, phone, whatsapp, email, mapsUrl, linkPortalPegawai, linkPPDB, instagram, youtube, facebook }`
 export const teachersQuery = groq`*[_type == "teacher"] | order(order asc) { _id, name, role, image }`
 export const allNewsQuery = groq`*[_type == "news"] | order(publishedAt desc) { _id, title, slug, publishedAt, coverImage }`
 export const singleNewsQuery = groq`*[_type == "news" && slug.current == $slug][0] { title, publishedAt, coverImage, videoUrl, body }`
@@ -61,5 +61,48 @@ export const faqsQuery = groq`
     _id,
     question,
     answer
+  }
+`
+
+export const instagramPostsQuery = groq`
+  *[_type == "instagramPost"] | order(order asc, _createdAt desc)[0...6] {
+    _id,
+    title,
+    url
+  }
+`
+
+export const homePageBundleQuery = groq`
+  {
+    "homepage": *[_type == "homepage"][0] { heroTitle, heroSubtitle, heroImage, welcomeTitle, welcomeText, headmasterName, headmasterPhoto, headmasterPhotoSize, headmasterPhotoPosition, headmasterPhotoAlign, vision, missions },
+    "programs": *[_type == "program"] | order(order asc) { _id, name, slug, description, image },
+    "facilities": *[_type == "facility"] | order(order asc) { _id, name, description, image },
+    "testimonials": *[_type == "testimonial"] { _id, name, role, quote, image },
+    "siteSettings": *[_type == "siteSettings"][0] { title, tagline, logo, address, phone, whatsapp, email, mapsUrl, linkPortalPegawai, linkPPDB },
+    "latestNews": *[_type == "news"] | order(publishedAt desc)[0...3] { _id, title, slug, publishedAt, coverImage },
+    "events": *[_type == "event" && coalesce(endDate, date) > now()] | order(date asc)[0...4] { _id, title, date, endDate, location, description },
+    "theme": *[_type == "themeSettings"][0] {
+      welcomeBg, welcomeTexture->{ image }, welcomeOpacity,
+      visionBg, visionTexture->{ image }, visionOpacity,
+      programBg, programTexture->{ image }, programOpacity,
+      facilitiesBg, facilitiesTexture->{ image }, facilitiesOpacity,
+      agendaBg, agendaTexture->{ image }, agendaOpacity,
+      faqBg, faqTexture->{ image }, faqOpacity,
+      instagramBg, instagramTexture->{ image }, instagramOpacity,
+      newsBg, newsTexture->{ image }, newsOpacity,
+      testimonialBg, testimonialTexture->{ image }, testimonialOpacity,
+      ctaBg, ctaTexture->{ image }, ctaOpacity
+    },
+    "faqs": *[_type == "faq"] | order(order asc) { _id, question, answer },
+    "instagramPosts": *[_type == "instagramPost"] | order(order asc, _createdAt desc)[0...6] { _id, title, url }
+  }
+`
+
+export const achievementsQuery = groq`
+  *[_type == "achievement"] | order(year desc) {
+    _id,
+    title,
+    year,
+    description
   }
 `

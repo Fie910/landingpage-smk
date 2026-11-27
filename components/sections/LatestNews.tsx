@@ -2,6 +2,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { urlForImage } from "@/sanity/lib/image"
+import PageBackground from "@/components/site/PageBackground"
 
 export default function LatestNews({ data, bgClass, texture, opacity }: { data: any[], bgClass?: string, texture?: any, opacity?: number }) {
     if (!data || data.length === 0) return null;
@@ -9,9 +10,7 @@ export default function LatestNews({ data, bgClass, texture, opacity }: { data: 
 
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
-            {texture?.image && (
-                <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: `url(${urlForImage(texture.image).url()})`, backgroundSize: 'cover', opacity: (opacity || 10) / 100 }} />
-            )}
+            <PageBackground texture={texture} opacity={opacity} />
             <div className="container relative z-10 mx-auto px-4 md:px-8">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>
@@ -25,7 +24,7 @@ export default function LatestNews({ data, bgClass, texture, opacity }: { data: 
                     {data.map((news) => (
                         <Link href={`/berita/${news.slug.current}`} key={news._id} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
                             <div className="relative h-56 bg-gray-200 overflow-hidden">
-                                {news.coverImage && <Image src={urlForImage(news.coverImage).url()} alt={news.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />}
+                                {news.coverImage && <Image src={urlForImage(news.coverImage).width(700).quality(80).url()} alt={news.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />}
                             </div>
                             <div className="p-6 flex flex-col grow">
                                 <p className="text-xs text-gold font-semibold mb-2">{new Date(news.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>

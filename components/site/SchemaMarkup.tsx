@@ -4,16 +4,20 @@ import { urlForImage } from "@/sanity/lib/image";
 export default function SchemaMarkup({ data }: { data?: any }) {
     if (!data) return null;
 
+    const sameAs = [data.instagram, data.youtube, data.facebook].filter(
+        (url): url is string => typeof url === "string" && url.trim().length > 0
+    );
+
     const schemaData = {
         "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
+        "@type": ["EducationalOrganization", "HighSchool"],
         "name": data.title || "SMK KH. A. Wahab Muhsin",
         "url": "https://smk-khawahabmuhsin.sch.id",
         "logo": data.logo ? urlForImage(data.logo).url() : "",
-        "description": data.tagline || "Sekolah berbasis Boarding School di Kabupaten Tasikmalaya - Sukahideng.",
+        "description": data.tagline || "Sekolah berbasis Pesantren di Kabupaten Tasikmalaya - Sukahideng.",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": data.address || "Tasikmalaya",
+            "streetAddress": data.address || "Sukahideng",
             "addressLocality": "Tasikmalaya",
             "addressRegion": "Jawa Barat",
             "addressCountry": "ID"
@@ -25,9 +29,7 @@ export default function SchemaMarkup({ data }: { data?: any }) {
             "areaServed": "ID",
             "availableLanguage": ["Indonesian"]
         },
-        "sameAs": [
-            // Anda bisa menambahkan link Instagram/Facebook di sini nanti jika sudah ada di Sanity
-        ]
+        "sameAs": sameAs
     };
 
     return (

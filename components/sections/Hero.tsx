@@ -12,9 +12,10 @@ export default function Hero({ data }: { data: any }) {
             {data.heroImage && (
                 <div className="absolute inset-0 opacity-20">
                     <Image
-                        src={urlForImage(data.heroImage).url()}
+                        src={urlForImage(data.heroImage).width(1600).quality(80).url()}
                         alt="Hero Background"
                         fill
+                        sizes="100vw"
                         className="object-cover"
                         priority
                     />

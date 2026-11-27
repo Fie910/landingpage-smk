@@ -1,6 +1,6 @@
 // components/sections/VisionMission.tsx
 import { CheckCircle2 } from "lucide-react"
-import { urlForImage } from "@/sanity/lib/image"
+import PageBackground from "@/components/site/PageBackground"
 
 export default function VisionMission({ data, bgClass, texture, opacity }: { data: any, bgClass?: string, texture?: any, opacity?: number }) {
     if (!data) return null;
@@ -8,9 +8,7 @@ export default function VisionMission({ data, bgClass, texture, opacity }: { dat
 
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
-            {texture?.image && (
-                <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: `url(${urlForImage(texture.image).url()})`, backgroundSize: 'cover', opacity: (opacity || 10) / 100 }} />
-            )}
+            <PageBackground texture={texture} opacity={opacity} />
             <div className="container relative z-10 mx-auto px-4 md:px-8 max-w-5xl">
                 <div className="grid md:grid-cols-2 gap-12">
                     <div className="bg-navy-deep text-white p-10 rounded-2xl shadow-xl">

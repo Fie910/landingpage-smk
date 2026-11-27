@@ -1,4 +1,4 @@
-//smk-khawahabmuhsin/sanity/structure.ts
+//sanity\deskStructure.ts
 import type { StructureResolver } from 'sanity/structure'
 
 export const structure: StructureResolver = (S) =>
@@ -36,6 +36,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('news').title('📰 Berita'),
       S.documentTypeListItem('event').title('📅 Agenda & Kalender'),
       S.documentTypeListItem('gallery').title('🖼️ Galeri Kegiatan'),
+      S.documentTypeListItem('instagramPost').title('📸 Konten Instagram'),
       S.documentTypeListItem('faq').title('❓ Pertanyaan Umum (FAQ)'),
       S.documentTypeListItem('lead').title('📥 Minat Pendaftar (Lead)'),
 

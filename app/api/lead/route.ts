@@ -12,22 +12,83 @@ const writeClient = createClient({
     token: process.env.SANITY_API_WRITE_TOKEN,
 })
 
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000 // 10 menit
+const RATE_LIMIT_MAX_REQUESTS = 5
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+
+function getClientIp(request: Request): string {
+    const forwardedFor = request.headers.get('x-forwarded-for')
+    if (forwardedFor) {
+        return forwardedFor.split(',')[0].trim()
+    }
+    return request.headers.get('x-real-ip') || 'unknown'
+}
+
+function isRateLimited(ip: string): boolean {
+    const now = Date.now()
+    const record = rateLimitMap.get(ip)
+
+    if (!record || now > record.resetAt) {
+        rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
+        return false
+    }
+
+    if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+        return true
+    }
+
+    record.count += 1
+    return false
+}
+
 export async function POST(request: Request) {
     try {
-        const body = await request.json()
-        const { name, whatsapp, message } = body
+        const ip = getClientIp(request)
+        if (isRateLimited(ip)) {
+            return NextResponse.json(
+                { error: 'Terlalu banyak permintaan. Silakan coba lagi nanti.' },
+                { status: 429 }
+            )
+        }
 
-        // Validasi sederhana
-        if (!name || !whatsapp) {
-            return NextResponse.json({ error: 'Nama dan WhatsApp wajib diisi' }, { status: 400 })
+        const body = await request.json()
+        const { name, whatsapp, message, website } = body
+
+        // Honeypot check: jika terisi, anggap bot dan kembalikan 200 tanpa menyimpan
+        if (typeof website === 'string' && website.trim().length > 0) {
+            return NextResponse.json({ success: true }, { status: 200 })
+        }
+
+        // Validasi ketat
+        if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
+            return NextResponse.json(
+                { error: 'Nama harus berupa teks 2–100 karakter' },
+                { status: 400 }
+            )
+        }
+
+        const cleanWhatsapp = typeof whatsapp === 'string' ? whatsapp.replace(/\D/g, '') : ''
+        if (cleanWhatsapp.length < 10 || cleanWhatsapp.length > 15) {
+            return NextResponse.json(
+                { error: 'Nomor WhatsApp harus terdiri dari 10–15 digit angka' },
+                { status: 400 }
+            )
+        }
+
+        const cleanMessage = typeof message === 'string' ? message.trim() : ''
+        if (cleanMessage.length > 1000) {
+            return NextResponse.json(
+                { error: 'Pesan maksimal 1000 karakter' },
+                { status: 400 }
+            )
         }
 
         // Simpan ke Sanity
         await writeClient.create({
             _type: 'lead',
-            name,
-            whatsapp,
-            message,
+            name: name.trim(),
+            whatsapp: cleanWhatsapp,
+            message: cleanMessage,
             status: 'Baru',
             createdAt: new Date().toISOString(),
         })

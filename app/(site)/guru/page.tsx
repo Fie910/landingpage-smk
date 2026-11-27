@@ -1,5 +1,5 @@
 // app/(site)/guru/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { teachersQuery, themeSettingsQuery } from "@/lib/queries"
 import Teachers from "@/components/sections/Teachers"
 import PageBackground from "@/components/site/PageBackground"
@@ -8,10 +8,10 @@ export const metadata = { title: "Tenaga Pendidik | SMK KH. A. Wahab Muhsin" }
 export const revalidate = 60
 
 export default async function GuruPage() {
-    const [teachersData, themeData] = await Promise.all([
-        client.fetch(teachersQuery),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: teachersData }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: teachersQuery }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
     // PERBAIKAN: guruBg
     const bg = themeData?.guruBg || "bg-bg-tulang text-gray-800"
 

@@ -35,3 +35,6 @@
 
 # Dotenv and similar local-only files
 *.local
+
+#miscell
+repomix-output.xml

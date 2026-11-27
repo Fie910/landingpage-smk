@@ -27,9 +27,10 @@ export default function Teachers({ data, bgClass, texture, opacity }: { data: an
                             <div className="relative aspect-3/4 bg-gray-200 overflow-hidden">
                                 {teacher.image ? (
                                     <Image
-                                        src={urlForImage(teacher.image).url()}
+                                        src={urlForImage(teacher.image).width(500).quality(80).url()}
                                         alt={teacher.name}
                                         fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 ) : (

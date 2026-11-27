@@ -1,5 +1,5 @@
 // app/(site)/berita/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { allNewsQuery, themeSettingsQuery } from "@/lib/queries"
 import Link from "next/link"
 import Image from "next/image"
@@ -10,10 +10,10 @@ export const metadata = { title: "Berita | SMK KH. A. Wahab Muhsin" }
 export const revalidate = 60
 
 export default async function BeritaPage() {
-    const [newsData, themeData] = await Promise.all([
-        client.fetch(allNewsQuery),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: newsData }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: allNewsQuery }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
     // PERBAIKAN: beritaBg
     const bg = themeData?.beritaBg || "bg-bg-tulang text-gray-800"
 
@@ -33,7 +33,7 @@ export default async function BeritaPage() {
                             {newsData.map((news: any) => (
                                 <Link href={`/berita/${news.slug.current}`} key={news._id} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
                                     <div className="relative h-48 bg-gray-200 overflow-hidden">
-                                        {news.coverImage && <Image src={urlForImage(news.coverImage).url()} alt={news.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />}
+                                        {news.coverImage && <Image src={urlForImage(news.coverImage).width(700).quality(80).url()} alt={news.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />}
                                     </div>
                                     <div className="p-6">
                                         <p className="text-xs text-gold font-semibold mb-2">{new Date(news.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>

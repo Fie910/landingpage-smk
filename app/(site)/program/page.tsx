@@ -1,5 +1,5 @@
 //app/(site)/program/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { programsQuery, themeSettingsQuery } from "@/lib/queries"
 import Programs from "@/components/sections/Programs"
 import PageBackground from "@/components/site/PageBackground"
@@ -8,10 +8,10 @@ export const metadata = { title: "Program Keahlian | SMK KH. A. Wahab Muhsin" }
 export const revalidate = 60
 
 export default async function ProgramPage() {
-    const [programsData, themeData] = await Promise.all([
-        client.fetch(programsQuery),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: programsData }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: programsQuery }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
 
     const bg = themeData?.programPageBg || "bg-bg-tulang text-gray-800";
 

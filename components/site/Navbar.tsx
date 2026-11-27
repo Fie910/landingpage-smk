@@ -21,6 +21,10 @@ export default function Navbar({ data }: { data?: any }) {
         { name: "Kontak", href: "/kontak" },
     ];
 
+    const isExternal = (href: string) => href.startsWith("http://") || href.startsWith("https://");
+    const ppdbHref = data?.linkPPDB || "https://ppdb.smk-khawahabmuhsin.sch.id";
+    const pegawaiHref = data?.linkPortalPegawai || "https://pegawai.smk-khawahabmuhsin.sch.id";
+
     return (
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
             <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
@@ -30,9 +34,10 @@ export default function Navbar({ data }: { data?: any }) {
                     {data?.logo ? (
                         <div className="relative w-15 h-15 shrink-0">
                             <Image
-                                src={urlForImage(data.logo).url()}
+                                src={urlForImage(data.logo).width(200).url()}
                                 alt="Logo Sekolah"
                                 fill
+                                sizes="80px"
                                 className="object-contain"
                             />
                         </div>
@@ -42,9 +47,9 @@ export default function Navbar({ data }: { data?: any }) {
                         </div>
                     )}
                     <div className="block">
-                        <h1 className="font-serif font-bold text-navy-deep text-sm sm:text-lg leading-tight line-clamp-2">
+                        <span className="block font-serif font-bold text-navy-deep text-sm sm:text-lg leading-tight line-clamp-2">
                             {data?.title || "SMK KH. A. Wahab Muhsin"}
-                        </h1>
+                        </span>
                         <p className="text-[10px] sm:text-xs text-gray-500">Tasikmalaya</p>
                     </div>
                 </Link>
@@ -60,12 +65,24 @@ export default function Navbar({ data }: { data?: any }) {
 
                 {/* Tombol Aksi & Mobile Toggle */}
                 <div className="flex items-center gap-3">
-                    <Link href={data?.linkPPDB || "https://ppdb.smk-khawahabmuhsin.sch.id"} className="hidden md:inline-flex bg-gold hover:bg-yellow-600 text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-all shadow-md">
-                        Info PPDB
-                    </Link>
-                    <Link href={data?.linkPortalPegawai || "https://pegawai.smk-khawahabmuhsin.sch.id"} className="hidden md:inline-flex bg-navy-deep hover:bg-navy-mid text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-all shadow-md">
-                        Portal Pegawai
-                    </Link>
+                    {isExternal(ppdbHref) ? (
+                        <a href={ppdbHref} target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex bg-gold hover:bg-yellow-600 text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-all shadow-md">
+                            Info PPDB
+                        </a>
+                    ) : (
+                        <Link href={ppdbHref} className="hidden md:inline-flex bg-gold hover:bg-yellow-600 text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-all shadow-md">
+                            Info PPDB
+                        </Link>
+                    )}
+                    {isExternal(pegawaiHref) ? (
+                        <a href={pegawaiHref} target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex bg-navy-deep hover:bg-navy-mid text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-all shadow-md">
+                            Portal Pegawai
+                        </a>
+                    ) : (
+                        <Link href={pegawaiHref} className="hidden md:inline-flex bg-navy-deep hover:bg-navy-mid text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-all shadow-md">
+                            Portal Pegawai
+                        </Link>
+                    )}
 
                     {/* Tombol Hamburger Mobile */}
                     <button
@@ -97,18 +114,42 @@ export default function Navbar({ data }: { data?: any }) {
 
                     {/* Tombol Aksi di Mobile Menu */}
                     <div className="flex flex-col gap-3">
-                        <Link
-                            href={data?.linkPPDB || "https://ppdb.smk-khawahabmuhsin.sch.id"}
-                            className="bg-gold text-white text-center px-5 py-3 rounded-md text-sm font-semibold"
-                        >
-                            Info PPDB
-                        </Link>
-                        <Link
-                            href={data?.linkPortalPegawai || "https://pegawai.smk-khawahabmuhsin.sch.id"}
-                            className="bg-navy-deep text-white text-center px-5 py-3 rounded-md text-sm font-semibold"
-                        >
-                            Portal Pegawai
-                        </Link>
+                        {isExternal(ppdbHref) ? (
+                            <a
+                                href={ppdbHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-gold text-white text-center px-5 py-3 rounded-md text-sm font-semibold"
+                            >
+                                Info PPDB
+                            </a>
+                        ) : (
+                            <Link
+                                href={ppdbHref}
+                                onClick={() => setIsOpen(false)}
+                                className="bg-gold text-white text-center px-5 py-3 rounded-md text-sm font-semibold"
+                            >
+                                Info PPDB
+                            </Link>
+                        )}
+                        {isExternal(pegawaiHref) ? (
+                            <a
+                                href={pegawaiHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-navy-deep text-white text-center px-5 py-3 rounded-md text-sm font-semibold"
+                            >
+                                Portal Pegawai
+                            </a>
+                        ) : (
+                            <Link
+                                href={pegawaiHref}
+                                onClick={() => setIsOpen(false)}
+                                className="bg-navy-deep text-white text-center px-5 py-3 rounded-md text-sm font-semibold"
+                            >
+                                Portal Pegawai
+                            </Link>
+                        )}
                     </div>
                 </div>
             )}

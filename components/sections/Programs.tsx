@@ -2,6 +2,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { urlForImage } from "@/sanity/lib/image"
+import PageBackground from "@/components/site/PageBackground"
 
 // Tambahkan bgClass di sini
 export default function Programs({ data, bgClass, texture, opacity }: { data: any[], bgClass?: string, texture?: any, opacity?: number }) {
@@ -12,17 +13,7 @@ export default function Programs({ data, bgClass, texture, opacity }: { data: an
 
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
-            {/* LAPISAN TEKSTUR */}
-            {texture?.image && (
-                <div
-                    className="absolute inset-0 pointer-events-none z-0"
-                    style={{
-                        backgroundImage: `url(${urlForImage(texture.image).url()})`,
-                        backgroundSize: 'cover',
-                        opacity: (opacity || 10) / 100
-                    }}
-                />
-            )}
+            <PageBackground texture={texture} opacity={opacity} />
 
             <div className="container relative z-10 mx-auto px-4 md:px-8">
                 <div className="text-center max-w-2xl mx-auto mb-16">
@@ -41,9 +32,10 @@ export default function Programs({ data, bgClass, texture, opacity }: { data: an
                             <div className="relative h-56 w-full overflow-hidden bg-gray-200">
                                 {program.image ? (
                                     <Image
-                                        src={urlForImage(program.image).url()}
+                                        src={urlForImage(program.image).width(700).quality(80).url()}
                                         alt={program.name}
                                         fill
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 ) : (

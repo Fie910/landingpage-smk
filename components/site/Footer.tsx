@@ -17,9 +17,10 @@ export default function Footer({ data }: { data?: any }) {
                         {data?.logo && (
                             <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white/10 p-2 rounded-lg shrink-0">
                                 <Image
-                                    src={urlForImage(data.logo).url()}
+                                    src={urlForImage(data.logo).width(200).url()}
                                     alt="Logo"
                                     fill
+                                    sizes="80px"
                                     className="object-contain p-1"
                                 />
                             </div>

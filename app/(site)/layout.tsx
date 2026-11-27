@@ -1,17 +1,19 @@
 //smk-khawahabmuhsin/app/(site)/layout.tsx
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import Navbar from "@/components/site/Navbar";
 import Footer from "@/components/site/Footer";
 import MobileBottomNav from "@/components/site/MobileBottomNav"; // <-- Import
 import SchemaMarkup from "@/components/site/SchemaMarkup"; // <-- Import
-import { client } from "@/sanity/lib/client";
 import { siteSettingsQuery, themeSettingsQuery } from "@/lib/queries";
 import { urlForImage } from "@/sanity/lib/image";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-    const [siteSettings, theme] = await Promise.all([
-        client.fetch(siteSettingsQuery),
-        client.fetch(themeSettingsQuery)
-    ]);
+    const [{ data: siteSettings }, { data: theme }] = (await Promise.all([
+        sanityFetch({ query: siteSettingsQuery }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>;
 
     const globalBgColor = theme?.globalBgColor || 'bg-bg-tulang';
     const bgImageUrl = theme?.globalBgImage ? urlForImage(theme.globalBgImage).url() : null;
@@ -35,6 +37,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
             {/* Bottom Navbar (Hanya muncul di HP) */}
             <MobileBottomNav data={siteSettings} />
+
+            <SanityLive />
+            {(await draftMode()).isEnabled && <VisualEditing />}
         </div>
     );
 }

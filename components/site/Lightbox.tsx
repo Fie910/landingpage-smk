@@ -41,9 +41,10 @@ export default function Lightbox({ images }: { images: any[] }) {
                         onClick={() => setSelectedIndex(index)}
                     >
                         <Image
-                            src={urlForImage(img).url()}
+                            src={urlForImage(img).width(500).quality(75).url()}
                             alt={`Foto ${index + 1}`}
                             fill
+                            sizes="(max-width: 768px) 50vw, 25vw"
                             className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         {/* Overlay saat hover */}
@@ -79,9 +80,10 @@ export default function Lightbox({ images }: { images: any[] }) {
                     {/* Gambar Utama */}
                     <div className="relative w-full max-w-5xl h-[70vh] md:h-[85vh] mx-4">
                         <Image
-                            src={urlForImage(images[selectedIndex]).url()}
+                            src={urlForImage(images[selectedIndex]).width(1600).quality(85).url()}
                             alt="Foto Lightbox"
                             fill
+                            sizes="90vw"
                             className="object-contain"
                             priority
                         />

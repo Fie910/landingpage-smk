@@ -1,10 +1,6 @@
 //smk-khawahabmuhsin/app/(site)/page.tsx
-import { client } from "@/sanity/lib/client"
-import {
-  homepageQuery, programsQuery, facilitiesQuery,
-  testimonialsQuery, siteSettingsQuery, latestNewsQuery,
-  eventsQuery, themeSettingsQuery, faqsQuery
-} from "@/lib/queries"
+import { sanityFetch } from "@/sanity/lib/live"
+import { homePageBundleQuery } from "@/lib/queries"
 import Hero from "@/components/sections/Hero"
 import QuickLinks from "@/components/sections/QuickLinks"
 import Welcome from "@/components/sections/Welcome"
@@ -16,25 +12,25 @@ import Agenda from "@/components/sections/Agenda"
 import Testimonials from "@/components/sections/Testimonials"
 import ScrollReveal from "@/components/site/ScrollReveal";
 import Faq from "@/components/sections/Faq"
+import InstagramFeed from "@/components/sections/InstagramFeed"
 import LeadForm from "@/components/sections/LeadForm"
 //import CtaPpdb from "@/components/sections/CtaPpdb"
 
 export const revalidate = 60
 
 export default async function Home() {
-  const [homeData, programsData, facilitiesData,
-    testimonialsData, siteSettings, latestNewsData,
-    eventsData, themeData, faqData] = await Promise.all([
-      client.fetch(homepageQuery).catch(() => null),
-      client.fetch(programsQuery).catch(() => []),
-      client.fetch(facilitiesQuery).catch(() => []),
-      client.fetch(testimonialsQuery).catch(() => []),
-      client.fetch(siteSettingsQuery).catch(() => null),
-      client.fetch(latestNewsQuery).catch(() => []),
-      client.fetch(eventsQuery).catch(() => []),
-      client.fetch(themeSettingsQuery).catch(() => null),
-      client.fetch(faqsQuery).catch(() => [])
-    ])
+  const { data: bundle } = (await sanityFetch({ query: homePageBundleQuery }).catch(() => ({ data: null }))) as { data: any }
+
+  const homeData = bundle?.homepage ?? null
+  const programsData = bundle?.programs ?? []
+  const facilitiesData = bundle?.facilities ?? []
+  const testimonialsData = bundle?.testimonials ?? []
+  const siteSettings = bundle?.siteSettings ?? null
+  const latestNewsData = bundle?.latestNews ?? []
+  const eventsData = bundle?.events ?? []
+  const themeData = bundle?.theme ?? null
+  const faqData = bundle?.faqs ?? []
+  const instagramData = bundle?.instagramPosts ?? []
 
   return (
     <>
@@ -67,6 +63,10 @@ export default async function Home() {
       </ScrollReveal>
 
       <ScrollReveal>
+        <InstagramFeed data={instagramData} instagramUrl={siteSettings?.instagram} bgClass={themeData?.instagramBg} texture={themeData?.instagramTexture} opacity={themeData?.instagramOpacity} />
+      </ScrollReveal>
+
+      <ScrollReveal>
         <LatestNews data={latestNewsData} bgClass={themeData?.newsBg} texture={themeData?.newsTexture} opacity={themeData?.newsOpacity} />
       </ScrollReveal>
 
@@ -79,6 +79,7 @@ export default async function Home() {
           bgClass="bg-navy-deep"
           texture={themeData?.ctaTexture}
           opacity={themeData?.ctaOpacity}
+          whatsappNumber={siteSettings?.whatsapp}
         />
       </ScrollReveal>
 

@@ -1,5 +1,5 @@
 // app/(site)/galeri/page.tsx
-import { client } from "@/sanity/lib/client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { allGalleriesQuery, themeSettingsQuery } from "@/lib/queries"
 import Link from "next/link"
 import Image from "next/image"
@@ -12,10 +12,10 @@ export const metadata = { title: "Galeri Kegiatan | SMK KH. A. Wahab Muhsin" }
 export const revalidate = 60
 
 export default async function GaleriPage() {
-    const [galleriesData, themeData] = await Promise.all([
-        client.fetch(allGalleriesQuery),
-        client.fetch(themeSettingsQuery)
-    ])
+    const [{ data: galleriesData }, { data: themeData }] = (await Promise.all([
+        sanityFetch({ query: allGalleriesQuery }),
+        sanityFetch({ query: themeSettingsQuery })
+    ])) as Array<{ data: any }>
 
     // Menggunakan warna dasar halaman default atau dari pengaturan halaman berita
     const bg = themeData?.beritaBg || "bg-bg-tulang text-gray-800"
@@ -43,9 +43,10 @@ export default async function GaleriPage() {
                                         <div className="relative h-56 bg-gray-200 overflow-hidden">
                                             {album.coverImage ? (
                                                 <Image
-                                                    src={urlForImage(album.coverImage).url()}
+                                                    src={urlForImage(album.coverImage).width(700).quality(80).url()}
                                                     alt={album.title}
                                                     fill
+                                                    sizes="(max-width: 768px) 100vw, 33vw"
                                                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
                                             ) : (

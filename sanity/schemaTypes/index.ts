@@ -16,6 +16,7 @@ import texture from './texture'
 import gallery from './gallery'
 import faq from './faq'
 import lead from './lead'
+import instagramPost from './instagramPost'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -36,6 +37,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     gallery,
     faq,
     lead,
+    instagramPost,
 
     // Disiapkan (Belum tampil di UI)
     achievement,
