@@ -4,7 +4,10 @@ import { teachersQuery, themeSettingsQuery } from "@/lib/queries"
 import Teachers from "@/components/sections/Teachers"
 import PageBackground from "@/components/site/PageBackground"
 
-export const metadata = { title: "Tenaga Pendidik | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Tenaga Pendidik | SMK KH. A. Wahab Muhsin",
+    description: "Daftar guru dan tenaga pendidik profesional di SMK KH. A. Wahab Muhsin Tasikmalaya yang berdedikasi membimbing siswa.",
+}
 export const revalidate = 60
 
 export default async function GuruPage() {

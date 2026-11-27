@@ -1,8 +1,8 @@
 // components/sections/Welcome.tsx
 import Image from "next/image"
 import { urlForImage } from "@/sanity/lib/image"
-import { PortableText } from "@portabletext/react"
 import PageBackground from "@/components/site/PageBackground"
+import RichText from "@/components/site/RichText"
 
 export default function Welcome({ data, bgClass, texture, opacity }: { data: any, bgClass?: string, texture?: any, opacity?: number }) {
     if (!data) return null;
@@ -54,7 +54,7 @@ export default function Welcome({ data, bgClass, texture, opacity }: { data: any
                         </h2>
                     </div>
                     <div className="prose prose-lg text-gray-600 mb-8 italic max-w-none">
-                        {data.welcomeText ? <PortableText value={data.welcomeText} /> : <p>Teks sambutan belum diisi.</p>}
+                        {data.welcomeText ? <RichText value={data.welcomeText} /> : <p>Teks sambutan belum diisi.</p>}
                     </div>
                     <div>
                         <p className="font-bold text-navy-deep text-lg">{data.headmasterName}</p>

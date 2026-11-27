@@ -12,8 +12,10 @@ export default function SchemaMarkup({ data }: { data?: any }) {
         "@context": "https://schema.org",
         "@type": ["EducationalOrganization", "HighSchool"],
         "name": data.title || "SMK KH. A. Wahab Muhsin",
+        "alternateName": ["SMK KH A Wahab Muhsin", "SMK Wahab Muhsin Sukahideng"],
         "url": "https://smk-khawahabmuhsin.sch.id",
         "logo": data.logo ? urlForImage(data.logo).url() : "",
+        "email": data.email || "",
         "description": data.tagline || "Sekolah berbasis Pesantren di Kabupaten Tasikmalaya - Sukahideng.",
         "address": {
             "@type": "PostalAddress",

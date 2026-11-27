@@ -16,7 +16,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     ])) as Array<{ data: any }>;
 
     const globalBgColor = theme?.globalBgColor || 'bg-bg-tulang';
-    const bgImageUrl = theme?.globalBgImage ? urlForImage(theme.globalBgImage).url() : null;
+    const bgImageUrl = theme?.globalBgImage ? urlForImage(theme.globalBgImage).width(1600).quality(75).url() : null;
 
     return (
         <div

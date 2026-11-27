@@ -3,8 +3,12 @@ import { sanityFetch } from "@/sanity/lib/live"
 import { siteSettingsQuery, themeSettingsQuery } from "@/lib/queries"
 import { MapPin, Phone, Mail, MessageCircle } from "lucide-react"
 import PageBackground from "@/components/site/PageBackground"
+import { getWhatsAppUrl } from "@/lib/whatsapp"
 
-export const metadata = { title: "Kontak | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Kontak | SMK KH. A. Wahab Muhsin",
+    description: "Hubungi kami untuk informasi PPDB, alamat sekolah, nomor telepon, dan WhatsApp resmi SMK KH. A. Wahab Muhsin Tasikmalaya.",
+}
 export const revalidate = 60
 
 export default async function KontakPage() {
@@ -35,22 +39,36 @@ export default async function KontakPage() {
                                 </div>
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-bg-tulang rounded-full flex items-center justify-center shrink-0"><Phone className="w-6 h-6 text-navy-mid" /></div>
-                                    <div><h3 className="font-bold text-gray-800">Telepon</h3><p className="text-gray-600 mt-1">{data?.phone || "Belum diatur"}</p></div>
+                                    <div>
+                                        <h3 className="font-bold text-gray-800">Telepon</h3>
+                                        {data?.phone ? (
+                                            <a href={`tel:${data.phone.replace(/[^0-9+]/g, '')}`} className="text-gray-600 hover:text-navy-deep mt-1 inline-block">{data.phone}</a>
+                                        ) : (
+                                            <p className="text-gray-600 mt-1">Belum diatur</p>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-bg-tulang rounded-full flex items-center justify-center shrink-0"><Mail className="w-6 h-6 text-navy-mid" /></div>
-                                    <div><h3 className="font-bold text-gray-800">Email</h3><p className="text-gray-600 mt-1">{data?.email || "Belum diatur"}</p></div>
+                                    <div>
+                                        <h3 className="font-bold text-gray-800">Email</h3>
+                                        {data?.email ? (
+                                            <a href={`mailto:${data.email}`} className="text-gray-600 hover:text-navy-deep mt-1 inline-block">{data.email}</a>
+                                        ) : (
+                                            <p className="text-gray-600 mt-1">Belum diatur</p>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             {data?.whatsapp && (
-                                <a href={`https://wa.me/${data.whatsapp}`} target="_blank" rel="noopener noreferrer" className="mt-8 flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-md font-semibold transition-colors">
+                                <a href={getWhatsAppUrl(data.whatsapp)} target="_blank" rel="noopener noreferrer" className="mt-8 flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-md font-semibold transition-colors">
                                     <MessageCircle className="w-5 h-5" /> Hubungi via WhatsApp
                                 </a>
                             )}
                         </div>
                         <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 h-full min-h-100">
                             {data?.mapsUrl ? (
-                                <iframe src={data.mapsUrl} width="100%" height="100%" className="rounded-xl min-h-100" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                                <iframe src={data.mapsUrl} title="Peta Lokasi SMK KH. A. Wahab Muhsin" width="100%" height="100%" className="rounded-xl min-h-100" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                             ) : (
                                 <div className="flex items-center justify-center h-full text-gray-400">Peta belum diatur di CMS.</div>
                             )}

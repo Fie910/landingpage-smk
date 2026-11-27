@@ -17,8 +17,22 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://smk-khawahabmuhsin.sch.id'),
   title: "SMK KH. A. Wahab Muhsin",
   description: "Merawat Fitrah - Mengukir Karya. Sekolah berbasis Boarding School di Kabupaten Tasikmalaya.",
+  alternates: {
+    canonical: './',
+  },
+  keywords: [
+    "SMK KH. A. Wahab Muhsin",
+    "SMK Sukahideng",
+    "SMK Boarding School Tasikmalaya",
+    "SMK Pesantren Tasikmalaya",
+    "PPDB SMK Tasikmalaya",
+  ],
+  twitter: {
+    card: 'summary_large_image',
+  },
   openGraph: {
     title: "SMK KH. A. Wahab Muhsin",
     description: "Merawat Fitrah - Mengukir Karya. Sekolah berbasis Boarding School di Kabupaten Tasikmalaya.",
@@ -45,7 +59,7 @@ export default function RootLayout({
       <body className={`${plusJakarta.variable} ${playfair.variable} font-sans antialiased`}>
         {children}
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
+      {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
     </html>
   );
 }

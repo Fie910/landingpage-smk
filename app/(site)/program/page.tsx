@@ -4,7 +4,10 @@ import { programsQuery, themeSettingsQuery } from "@/lib/queries"
 import Programs from "@/components/sections/Programs"
 import PageBackground from "@/components/site/PageBackground"
 
-export const metadata = { title: "Program Keahlian | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Program Keahlian | SMK KH. A. Wahab Muhsin",
+    description: "Pilihan program keahlian dan jurusan unggulan di SMK KH. A. Wahab Muhsin Tasikmalaya yang memadukan kompetensi vokasi dan nilai pesantren.",
+}
 export const revalidate = 60
 
 export default async function ProgramPage() {

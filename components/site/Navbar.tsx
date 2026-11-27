@@ -87,6 +87,8 @@ export default function Navbar({ data }: { data?: any }) {
                     {/* Tombol Hamburger Mobile */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label={isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+                        aria-expanded={isOpen}
                         className="lg:hidden p-2 text-gray-600 hover:text-navy-deep transition-colors z-50 relative"
                     >
                         {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}

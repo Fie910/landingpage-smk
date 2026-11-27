@@ -7,7 +7,7 @@ export default defineType({
     type: 'document',
     fields: [
         defineField({ name: 'title', title: 'Judul Berita', type: 'string', validation: Rule => Rule.required() }),
-        defineField({ name: 'slug', title: 'URL Slug', type: 'slug', options: { source: 'title', maxLength: 96 } }),
+        defineField({ name: 'slug', title: 'URL Slug', type: 'slug', options: { source: 'title', maxLength: 96 }, validation: Rule => Rule.required() }),
         defineField({ name: 'publishedAt', title: 'Tanggal Publikasi', type: 'datetime' }),
         defineField({ name: 'coverImage', title: 'Gambar Sampul', type: 'image', options: { hotspot: true } }),
         defineField({ name: 'videoUrl', title: 'Link Video YouTube (Opsional)', type: 'url' }), // <-- TAMBAHKAN INI

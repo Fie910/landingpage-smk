@@ -8,7 +8,10 @@ import PageBackground from "@/components/site/PageBackground"
 import ScrollReveal from "@/components/site/ScrollReveal"
 import { Camera } from "lucide-react"
 
-export const metadata = { title: "Galeri Kegiatan | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Galeri Kegiatan | SMK KH. A. Wahab Muhsin",
+    description: "Dokumentasi foto kegiatan belajar, ekstrakurikuler, dan kehidupan asrama di SMK KH. A. Wahab Muhsin Tasikmalaya.",
+}
 export const revalidate = 60
 
 export default async function GaleriPage() {
@@ -58,9 +61,11 @@ export default async function GaleriPage() {
                                             </div>
                                         </div>
                                         <div className="p-6">
-                                            <p className="text-xs text-gold font-semibold mb-2">
-                                                {new Date(album.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                            </p>
+                                            {album.date && (
+                                                <p className="text-xs text-gold font-semibold mb-2">
+                                                    {new Date(album.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                                </p>
+                                            )}
                                             <h3 className="font-serif text-xl font-bold text-navy-deep group-hover:text-navy-mid transition-colors line-clamp-2">
                                                 {album.title}
                                             </h3>

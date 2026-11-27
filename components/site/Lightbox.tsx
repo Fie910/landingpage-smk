@@ -64,6 +64,7 @@ export default function Lightbox({ images }: { images: any[] }) {
                     {/* Tombol Tutup */}
                     <button
                         onClick={() => setSelectedIndex(null)}
+                        aria-label="Tutup tampilan foto"
                         className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 p-2 rounded-full transition-colors z-50"
                     >
                         <X className="w-8 h-8" />
@@ -72,6 +73,7 @@ export default function Lightbox({ images }: { images: any[] }) {
                     {/* Tombol Navigasi Kiri */}
                     <button
                         onClick={handlePrev}
+                        aria-label="Foto sebelumnya"
                         className="absolute left-4 md:left-12 text-white/70 hover:text-white bg-white/10 p-3 rounded-full transition-colors z-50"
                     >
                         <ChevronLeft className="w-8 h-8" />
@@ -92,6 +94,7 @@ export default function Lightbox({ images }: { images: any[] }) {
                     {/* Tombol Navigasi Kanan */}
                     <button
                         onClick={handleNext}
+                        aria-label="Foto berikutnya"
                         className="absolute right-4 md:right-12 text-white/70 hover:text-white bg-white/10 p-3 rounded-full transition-colors z-50"
                     >
                         <ChevronRight className="w-8 h-8" />

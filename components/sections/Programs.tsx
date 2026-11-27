@@ -22,7 +22,7 @@ export default function Programs({ data, bgClass, texture, opacity }: { data: an
                     </h2>
                     <div className="h-1 w-20 bg-gold mx-auto mb-6"></div>
                     <p className="text-gray-600">
-                        Kami berjuang menumbuh kembangkan lulusan yang menjaga fitrahnya dan siap mengabdi melalui karya nyata di berbagai bidang.
+                        Kami berkomitmen menumbuh kembangkan lulusan yang menjaga fitrahnya dan siap mengabdi melalui karya nyata di berbagai bidang.
                     </p>
                 </div>
 

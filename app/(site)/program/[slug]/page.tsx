@@ -3,11 +3,11 @@ import { sanityFetch } from "@/sanity/lib/live"
 import { singleProgramQuery, themeSettingsQuery } from "@/lib/queries"
 import { urlForImage } from "@/sanity/lib/image"
 import { getYouTubeEmbedUrl } from "@/lib/youtube"
-import { PortableText } from "@portabletext/react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import PageBackground from "@/components/site/PageBackground"
+import RichText from "@/components/site/RichText"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
@@ -62,7 +62,7 @@ export default async function DetailProgram({ params }: { params: Promise<{ slug
                             </div>
                         )}
                         <div className="prose prose-lg md:prose-xl max-w-none prose-headings:font-serif prose-img:rounded-xl">
-                            {program.longDescription ? <PortableText value={program.longDescription} /> : <p>Informasi detail untuk program ini belum ditambahkan.</p>}
+                            {program.longDescription ? <RichText value={program.longDescription} /> : <p>Informasi detail untuk program ini belum ditambahkan.</p>}
                         </div>
                         {embedUrl && (
                             <div className="mt-12">

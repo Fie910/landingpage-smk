@@ -3,12 +3,11 @@ import { sanityFetch } from "@/sanity/lib/live"
 import { singleNewsQuery, themeSettingsQuery } from "@/lib/queries"
 import { urlForImage } from "@/sanity/lib/image"
 import { getYouTubeEmbedUrl } from "@/lib/youtube"
-import { PortableText } from "@portabletext/react"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import PageBackground from "@/components/site/PageBackground"
-import InstagramEmbedCard from "@/components/site/InstagramEmbedCard"
+import RichText from "@/components/site/RichText"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params
@@ -45,36 +44,39 @@ export default async function DetailBerita({ params }: { params: Promise<{ slug:
 
     const bg = themeData?.beritaSlugBg || "bg-white text-gray-800"
 
+    const articleSchema = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": news.title,
+        "datePublished": news.publishedAt || undefined,
+        "image": news.coverImage ? [urlForImage(news.coverImage).width(1200).height(630).url()] : undefined,
+        "publisher": {
+            "@type": "EducationalOrganization",
+            "name": "SMK KH. A. Wahab Muhsin",
+        },
+    }
+
     return (
         // PERBAIKAN: Gunakan backtick
         <div className={`pt-10 min-h-screen relative overflow-hidden ${bg}`}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
             <PageBackground texture={themeData?.beritaSlugTexture} opacity={themeData?.beritaSlugOpacity} />
             <div className="relative z-10 container mx-auto px-4 md:px-8 py-16 max-w-3xl">
                 <Link href="/berita" className="text-sm font-semibold text-gold hover:text-navy-deep mb-6 inline-block">&larr; Kembali ke Berita</Link>
                 <h1 className="font-serif text-3xl md:text-5xl font-bold text-navy-deep mb-4 leading-tight">{news.title}</h1>
-                <p className="text-gray-500 mb-8 border-b pb-4">Diterbitkan pada {new Date(news.publishedAt).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                {news.publishedAt && (
+                    <p className="text-gray-500 mb-8 border-b pb-4">Diterbitkan pada {new Date(news.publishedAt).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                )}
                 {news.coverImage && (
                     <div className="relative h-75 md:h-100 w-full rounded-2xl overflow-hidden mb-10 bg-gray-100">
                         <Image src={urlForImage(news.coverImage).width(1200).quality(85).url()} alt={news.title} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover" />
                     </div>
                 )}
                 <div className="prose prose-lg md:prose-xl max-w-none prose-headings:font-serif prose-img:rounded-xl">
-                    {news.body ? (
-                        <PortableText
-                            value={news.body}
-                            components={{
-                                types: {
-                                    instagramEmbed: ({ value }: { value: { url: string; caption?: string } }) => (
-                                        <div className="my-8 not-prose max-w-md mx-auto">
-                                            <InstagramEmbedCard url={value.url} title={value.caption} />
-                                        </div>
-                                    ),
-                                },
-                            }}
-                        />
-                    ) : (
-                        <p>Isi berita kosong.</p>
-                    )}
+                    {news.body ? <RichText value={news.body} /> : <p>Isi berita kosong.</p>}
                 </div>
                 {embedUrl && (
                     <div className="mt-12">

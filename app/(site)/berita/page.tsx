@@ -6,7 +6,10 @@ import Image from "next/image"
 import { urlForImage } from "@/sanity/lib/image"
 import PageBackground from "@/components/site/PageBackground"
 
-export const metadata = { title: "Berita | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Berita | SMK KH. A. Wahab Muhsin",
+    description: "Berita terbaru, pengumuman, dan informasi kegiatan siswa di SMK KH. A. Wahab Muhsin Sukahideng, Tasikmalaya.",
+}
 export const revalidate = 60
 
 export default async function BeritaPage() {
@@ -36,7 +39,9 @@ export default async function BeritaPage() {
                                         {news.coverImage && <Image src={urlForImage(news.coverImage).width(700).quality(80).url()} alt={news.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />}
                                     </div>
                                     <div className="p-6">
-                                        <p className="text-xs text-gold font-semibold mb-2">{new Date(news.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                        {news.publishedAt && (
+                                            <p className="text-xs text-gold font-semibold mb-2">{new Date(news.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                        )}
                                         <h3 className="font-serif text-xl font-bold text-navy-deep group-hover:text-navy-mid transition-colors line-clamp-2">{news.title}</h3>
                                     </div>
                                 </Link>

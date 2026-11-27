@@ -30,6 +30,7 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
 
       S.documentTypeListItem('program').title('🎓 Program Keahlian'),
+      S.documentTypeListItem('achievement').title('🏆 Data Prestasi'),
       S.documentTypeListItem('facility').title('🏫 Fasilitas'),
       S.documentTypeListItem('teacher').title('👨‍🏫 Tenaga Pendidik'),
       S.documentTypeListItem('testimonial').title('💬 Testimoni'),
@@ -39,17 +40,4 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('instagramPost').title('📸 Konten Instagram'),
       S.documentTypeListItem('faq').title('❓ Pertanyaan Umum (FAQ)'),
       S.documentTypeListItem('lead').title('📥 Minat Pendaftar (Lead)'),
-
-      S.divider(),
-
-      // Folder khusus untuk yang belum ditampilkan di website
-      S.listItem()
-        .title('📦 Cadangan (Belum Tampil)')
-        .child(
-          S.list()
-            .title('Cadangan')
-            .items([
-              S.documentTypeListItem('achievement').title('🏆 Data Prestasi')
-            ])
-        ),
     ])

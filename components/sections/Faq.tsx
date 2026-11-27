@@ -16,8 +16,25 @@ export default function Faq({ data, bgClass, texture, opacity }: { data: any[], 
         setOpenIndex(openIndex === index ? null : index);
     };
 
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": data.map((item) => ({
+            "@type": "Question",
+            "name": item.question,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": item.answer,
+            },
+        })),
+    };
+
     return (
         <section className={`py-20 relative overflow-hidden ${bg}`}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
             <PageBackground texture={texture} opacity={opacity} />
 
             <div className="container relative z-10 mx-auto px-4 md:px-8 max-w-3xl">
@@ -39,6 +56,7 @@ export default function Faq({ data, bgClass, texture, opacity }: { data: any[], 
                         >
                             <button
                                 onClick={() => toggleFAQ(index)}
+                                aria-expanded={openIndex === index}
                                 className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
                             >
                                 <span className="font-semibold text-navy-deep md:text-lg pr-4">

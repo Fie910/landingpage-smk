@@ -2,14 +2,17 @@
 import { sanityFetch } from "@/sanity/lib/live"
 import { homepageQuery, aboutPageQuery, themeSettingsQuery, achievementsQuery } from "@/lib/queries"
 import VisionMission from "@/components/sections/VisionMission"
-import { PortableText } from "@portabletext/react"
 import { getYouTubeEmbedUrl } from "@/lib/youtube"
+import RichText from "@/components/site/RichText"
 import Image from "next/image"
 import { urlForImage } from "@/sanity/lib/image"
 import { CheckCircle2 } from "lucide-react"
 import PageBackground from "@/components/site/PageBackground"
 
-export const metadata = { title: "Tentang Kami | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Tentang Kami | SMK KH. A. Wahab Muhsin",
+    description: "Profil, sejarah, visi misi, dan prestasi SMK KH. A. Wahab Muhsin Sukahideng, sekolah vokasi berbasis pesantren di Kabupaten Tasikmalaya.",
+}
 export const revalidate = 60
 
 export default async function TentangPage() {
@@ -36,7 +39,7 @@ export default async function TentangPage() {
                         <div>
                             <h2 className="font-serif text-3xl font-bold text-navy-deep mb-6">Sejarah Singkat</h2>
                             <div className="prose prose-lg">
-                                {aboutData?.history ? <PortableText value={aboutData.history} /> : <p>Sejarah belum diisi.</p>}
+                                {aboutData?.history ? <RichText value={aboutData.history} /> : <p>Sejarah belum diisi.</p>}
                             </div>
                         </div>
                         <div className="space-y-6">

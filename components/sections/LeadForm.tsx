@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import PageBackground from "@/components/site/PageBackground";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 export default function LeadForm({ bgClass, texture, opacity, whatsappNumber }: { bgClass?: string, texture?: any, opacity?: number, whatsappNumber?: string }) {
     const [formData, setFormData] = useState({ name: "", whatsapp: "", message: "", website: "" });
@@ -13,14 +14,10 @@ export default function LeadForm({ bgClass, texture, opacity, whatsappNumber }: 
     const bg = bgClass || "bg-navy-deep text-white";
 
     const formatWaUrl = () => {
-        const cleanNumber = (whatsappNumber || "").replace(/\D/g, "");
-        const normalizedNumber = cleanNumber.startsWith("0")
-            ? `62${cleanNumber.slice(1)}`
-            : cleanNumber;
-        const text = encodeURIComponent(
+        return getWhatsAppUrl(
+            whatsappNumber,
             `Halo Admin PPDB SMK KH. A. Wahab Muhsin, saya ${submittedName} baru saja mengisi formulir minat pendaftaran dan ingin bertanya lebih lanjut.`
         );
-        return `https://wa.me/${normalizedNumber}?text=${text}`;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

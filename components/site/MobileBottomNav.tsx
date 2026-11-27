@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { Phone, MessageCircle, FileText } from "lucide-react";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 export default function MobileBottomNav({ data }: { data?: any }) {
     // Fungsi untuk membersihkan nomor telepon (menghilangkan spasi, tanda hubung, dll)
@@ -13,33 +14,68 @@ export default function MobileBottomNav({ data }: { data?: any }) {
             <div className="flex justify-around items-center h-16 px-2">
 
                 {/* Tombol Telepon */}
-                <a
-                    href={`tel:${cleanPhone(data?.phone || "")}`}
-                    className="flex flex-col items-center justify-center w-full h-full text-gray-600 hover:text-navy-deep transition-colors"
-                >
-                    <Phone className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-semibold">Telepon</span>
-                </a>
+                {cleanPhone(data?.phone || "") ? (
+                    <a
+                        href={`tel:${cleanPhone(data?.phone || "")}`}
+                        className="flex flex-col items-center justify-center w-full h-full text-gray-600 hover:text-navy-deep transition-colors"
+                    >
+                        <Phone className="w-5 h-5 mb-1" />
+                        <span className="text-[10px] font-semibold">Telepon</span>
+                    </a>
+                ) : (
+                    <Link
+                        href="/kontak"
+                        className="flex flex-col items-center justify-center w-full h-full text-gray-600 hover:text-navy-deep transition-colors"
+                    >
+                        <Phone className="w-5 h-5 mb-1" />
+                        <span className="text-[10px] font-semibold">Telepon</span>
+                    </Link>
+                )}
 
                 {/* Tombol WhatsApp */}
-                <a
-                    href={`https://wa.me/${cleanPhone(data?.whatsapp || "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col items-center justify-center w-full h-full text-green-600 hover:text-green-700 transition-colors"
-                >
-                    <MessageCircle className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-semibold">WhatsApp</span>
-                </a>
+                {(() => {
+                    const waUrl = getWhatsAppUrl(data?.whatsapp);
+                    const className = "flex flex-col items-center justify-center w-full h-full text-green-600 hover:text-green-700 transition-colors";
+                    const content = (
+                        <>
+                            <MessageCircle className="w-5 h-5 mb-1" />
+                            <span className="text-[10px] font-semibold">WhatsApp</span>
+                        </>
+                    );
+
+                    return waUrl ? (
+                        <a href={waUrl} target="_blank" rel="noopener noreferrer" className={className}>
+                            {content}
+                        </a>
+                    ) : (
+                        <Link href="/kontak" className={className}>
+                            {content}
+                        </Link>
+                    );
+                })()}
 
                 {/* Tombol PPDB */}
-                <Link
-                    href={data?.linkPPDB || "/kontak"}
-                    className="flex flex-col items-center justify-center w-full h-full text-gold hover:text-yellow-600 transition-colors"
-                >
-                    <FileText className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-semibold">Daftar PPDB</span>
-                </Link>
+                {(() => {
+                    const ppdbHref = data?.linkPPDB || "/kontak";
+                    const isExternal = ppdbHref.startsWith("http://") || ppdbHref.startsWith("https://");
+                    const className = "flex flex-col items-center justify-center w-full h-full text-gold hover:text-yellow-600 transition-colors";
+                    const content = (
+                        <>
+                            <FileText className="w-5 h-5 mb-1" />
+                            <span className="text-[10px] font-semibold">Daftar PPDB</span>
+                        </>
+                    );
+
+                    return isExternal ? (
+                        <a href={ppdbHref} target="_blank" rel="noopener noreferrer" className={className}>
+                            {content}
+                        </a>
+                    ) : (
+                        <Link href={ppdbHref} className={className}>
+                            {content}
+                        </Link>
+                    );
+                })()}
 
             </div>
         </div>

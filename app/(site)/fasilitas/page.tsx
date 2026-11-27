@@ -4,7 +4,10 @@ import { facilitiesQuery, themeSettingsQuery } from "@/lib/queries"
 import Facilities from "@/components/sections/Facilities"
 import PageBackground from "@/components/site/PageBackground"
 
-export const metadata = { title: "Fasilitas | SMK KH. A. Wahab Muhsin" }
+export const metadata = {
+    title: "Fasilitas | SMK KH. A. Wahab Muhsin",
+    description: "Fasilitas belajar, laboratorium praktik, dan asrama boarding school di SMK KH. A. Wahab Muhsin Sukahideng, Tasikmalaya.",
+}
 export const revalidate = 60
 
 export default async function FasilitasPage() {
