@@ -10,6 +10,7 @@ export default function LeadForm({ bgClass, texture, opacity, whatsappNumber }: 
     const [formData, setFormData] = useState({ name: "", whatsapp: "", message: "", website: "" });
     const [submittedName, setSubmittedName] = useState("");
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const bg = bgClass || "bg-navy-deep text-white";
 
@@ -23,6 +24,7 @@ export default function LeadForm({ bgClass, texture, opacity, whatsappNumber }: 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus("loading");
+        setErrorMessage("");
 
         try {
             const res = await fetch("/api/lead", {
@@ -36,9 +38,12 @@ export default function LeadForm({ bgClass, texture, opacity, whatsappNumber }: 
                 setStatus("success");
                 setFormData({ name: "", whatsapp: "", message: "", website: "" }); // Reset form
             } else {
+                const data = await res.json().catch(() => null);
+                setErrorMessage(data?.error || "Terjadi kesalahan. Silakan coba lagi.");
                 setStatus("error");
             }
-        } catch (error) {
+        } catch {
+            setErrorMessage("Terjadi kesalahan. Silakan coba lagi.");
             setStatus("error");
         }
     };
@@ -130,7 +135,7 @@ export default function LeadForm({ bgClass, texture, opacity, whatsappNumber }: 
                                     {status === "loading" ? "Mengirim..." : "Kirim Minat Pendaftaran"}
                                 </button>
                                 {status === "error" && (
-                                    <p className="text-red-300 text-sm text-center">Terjadi kesalahan. Silakan coba lagi.</p>
+                                    <p className="text-red-300 text-sm text-center">{errorMessage}</p>
                                 )}
                             </form>
                         )}

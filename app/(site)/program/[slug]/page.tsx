@@ -1,5 +1,6 @@
 // app/(site)/program/[slug]/page.tsx
 import { sanityFetch } from "@/sanity/lib/live"
+import { client } from "@/sanity/lib/client"
 import { singleProgramQuery, themeSettingsQuery } from "@/lib/queries"
 import { urlForImage } from "@/sanity/lib/image"
 import { getYouTubeEmbedUrl } from "@/lib/youtube"
@@ -32,6 +33,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export const revalidate = 60
+
+export async function generateStaticParams() {
+    const items: { slug: string }[] = await client.fetch(
+        `*[_type == "program" && defined(slug.current)]{ "slug": slug.current }`
+    )
+    return items.map((item) => ({ slug: item.slug }))
+}
 
 export default async function DetailProgram({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params

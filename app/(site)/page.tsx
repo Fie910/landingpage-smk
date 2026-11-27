@@ -76,7 +76,7 @@ export default async function Home() {
 
       <ScrollReveal>
         <LeadForm
-          bgClass="bg-navy-deep"
+          bgClass={themeData?.ctaBg || "bg-navy-deep"}
           texture={themeData?.ctaTexture}
           opacity={themeData?.ctaOpacity}
           whatsappNumber={siteSettings?.whatsapp}

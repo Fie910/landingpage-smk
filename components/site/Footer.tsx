@@ -89,7 +89,10 @@ export default function Footer({ data }: { data?: any }) {
                         <li><Link href="/tentang" className="hover:text-gold transition-colors">Profil Sekolah</Link></li>
                         <li><Link href="/program" className="hover:text-gold transition-colors">Program Keahlian</Link></li>
                         <li><Link href="/fasilitas" className="hover:text-gold transition-colors">Fasilitas Asrama</Link></li>
+                        <li><Link href="/guru" className="hover:text-gold transition-colors">Tenaga Pendidik</Link></li>
                         <li><Link href="/berita" className="hover:text-gold transition-colors">Berita & Kegiatan</Link></li>
+                        <li><Link href="/galeri" className="hover:text-gold transition-colors">Galeri Kegiatan</Link></li>
+                        <li><Link href="/kontak" className="hover:text-gold transition-colors">Kontak</Link></li>
                     </ul>
                 </div>
 

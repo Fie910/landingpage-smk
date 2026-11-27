@@ -1,5 +1,6 @@
 // app/(site)/galeri/[slug]/page.tsx
 import { sanityFetch } from "@/sanity/lib/live"
+import { client } from "@/sanity/lib/client"
 import { singleGalleryQuery, themeSettingsQuery } from "@/lib/queries"
 import { notFound } from "next/navigation"
 import Link from "next/link"
@@ -29,6 +30,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export const revalidate = 60
+
+export async function generateStaticParams() {
+    const items: { slug: string }[] = await client.fetch(
+        `*[_type == "gallery" && defined(slug.current)]{ "slug": slug.current }`
+    )
+    return items.map((item) => ({ slug: item.slug }))
+}
 
 export default async function DetailGaleri({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params

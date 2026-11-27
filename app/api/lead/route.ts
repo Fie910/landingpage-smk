@@ -26,6 +26,15 @@ function getClientIp(request: Request): string {
 
 function isRateLimited(ip: string): boolean {
     const now = Date.now()
+
+    if (rateLimitMap.size > 500) {
+        for (const [key, entry] of rateLimitMap.entries()) {
+            if (now > entry.resetAt) {
+                rateLimitMap.delete(key)
+            }
+        }
+    }
+
     const record = rateLimitMap.get(ip)
 
     if (!record || now > record.resetAt) {
