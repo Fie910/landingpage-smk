@@ -18,7 +18,7 @@ export default defineType({
       validation: (Rule) =>
         Rule.required().custom((value) => {
           if (!value) return true
-          const pattern = /^https?:\/\/(www\.)?instagram\.com\/(p|reels?)\/[A-Za-z0-9_-]+/i
+          const pattern = /^https?:\/\/(www\.)?instagram\.com\/([A-Za-z0-9._]+\/)?(p|reels?)\/[A-Za-z0-9_-]+/i
           return pattern.test(value)
             ? true
             : 'URL harus berupa link Post (/p/) atau Reels (/reel/ atau /reels/) dari instagram.com'
